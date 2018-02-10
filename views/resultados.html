@@ -1,0 +1,24 @@
+
+<div ng-controller="resultadosCtrl as ctrl">
+	
+	<h2> Resultados </h2>
+	
+	<br><br>
+	<table class="table table-striped">
+		<tr>
+			<th> Equipe </th>
+			<th> Workout </th>
+			<th> Árbitro </th>			
+			<th> Tempo </th>
+		</tr>
+		<tr ng-repeat="x in ctrl.listaResultados">
+			<td> {{x.equipe}} </td>
+			<td> {{x.workout}} </td>
+			<td> {{x.arbitro}} </td>
+			<td> {{x.tempo}} </td>
+		</tr>
+	</table>
+	<br>
+	<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+
+</div>

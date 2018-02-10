@@ -1,0 +1,40 @@
+
+<div ng-controller="cadastraWorkoutCtrl as ctrl">
+
+	<alerta titulo="Novo Titulo pro Poker" texto="ctrl.msg">
+	</alerta>		
+
+	<h2> Cadastro de Workout </h2>
+	<form>
+		<div class="form-group">				
+			<input ng-model="ctrl.workout.numero" placeholder="Número"><br>
+			<input ng-model="ctrl.workout.exercicios" placeholder="Exercícios">
+		</div>
+	</form>
+
+	<div class="form-group">
+		<div class="col-md-9">
+			<input type="button" ng-click="ctrl.cadastra(ctrl.workout)" class="btn btn-success" value="Cadastra workout">
+
+			<input type="button" ng-click="ctrl.buscaWorkout()" class="btn btn-warning" value="Buscar workouts">
+		</div>
+<!--	<div class="col-md-3">
+			<input type="button" ng-click="ctrl.redirecionaStats()" class="btn btn-info" value="Estatísticas">
+		</div>			 -->
+	</div>
+
+	<br><br>
+	<table class="table table-striped">
+		<tr>
+			<td> Número </td>
+			<td> Exercícios </td>
+		</tr>
+		<tr ng-repeat="x in ctrl.listaWorkouts | orderBy:'numero'">
+			<td> {{x.numero}} </td>
+			<td> {{x.exercicios}} </td>
+		</tr>
+	</table>
+
+	<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+
+</div>

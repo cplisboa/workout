@@ -1,0 +1,49 @@
+<div ng-controller="gerLoggerCtrl as ctrl">
+
+	<h2> Gerencia do logger </h2>
+	<form>
+	<div class="form-group">
+		<div class="col-md-2">				
+			ID: 
+			<input ng-model="ctrl.logger.id" placeholder="ID">
+		</div>
+		<div class="col-md-2">							
+			IP: 
+			<input ng-model="ctrl.logger.ip" placeholder="ip">
+		</div>
+		<div class="col-md-2">							
+			Árbitro
+			<input ng-model="ctrl.logger.arbitro" placeholder="Arbitro">
+		</div>
+
+		<div class="col-md-3">
+			<input type="button" type="submit" ng-click="ctrl.cadastra()" class="btn btn-success" value="Cadastra Arbitro">
+			<input type="button" ng-click="ctrl.buscaArbitros()" class="btn btn-warning" value="Buscar">
+		</div>
+	</div>
+	</form>
+	<br><br>
+	<div class="row">
+		<div class="form-group">
+			<div class="col-md-8">	
+				<table class="table table-striped">
+					<tr>
+						<th> ID </th>
+						<th> IP </th>
+						<th> Árbitro </th>
+					</tr>
+					<tr ng-repeat="x in ctrl.listaArbitros | orderBy:'id'">
+						<td> {{x.id}} </td>
+						<td> {{x.ip}} </td>
+						<td> {{x.arbitro}} </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+	</div>
+
+</div>

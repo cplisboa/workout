@@ -1,0 +1,30 @@
+
+
+<div ng-controller="telaInicialCtrl as ctrl">
+
+	<div class="container" >
+		<div class="col-md-6">
+			<div class="jumbotron">
+				<h1 class="display-3">Workout!</h1>
+				<p class="lead">Selecione a opção desejada.</p>
+				<hr class="m-y-2">
+				<!-- <p> Aqui pode ir um texto dentro do frame com os botões </p> -->
+				<p class="lead text-center">
+					<a class="btn btn-primary btn-lg" ng-click="ctrl.cadastrarWorkout()" role="button">Cadastrar Workout</a>
+				</p>
+				
+				<p class="lead text-center">
+					<a class="btn btn-primary btn-lg" ng-click="ctrl.gerenciarLogger()" role="button">Gerenciar Logger</a>
+				</p>
+
+				<p class="lead text-center">
+					<a class="btn btn-primary btn-lg" ng-click="ctrl.atribuirLogger()" role="button">Atribuir workout ao logger</a>
+				</p>
+
+				<p class="lead text-center">
+					<a class="btn btn-primary btn-lg" ng-click="ctrl.abreResultados()" role="button">Resultados</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>	

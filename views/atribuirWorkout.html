@@ -1,0 +1,53 @@
+
+<div ng-controller="atribuirWorkoutCtrl as ctrl">
+	
+	<h2> Atribuir workout </h2>
+	
+	<!--
+	<form>
+		<div class="form-group">				
+			<input ng-model="ctrl.workout.numero" placeholder="Número"><br>
+			<input ng-model="ctrl.workout.exercicios" placeholder="Exercícios">
+		</div>
+	</form>  -->
+
+	<br><br>
+	<table class="table table-striped">
+		<tr>
+			<th> Equipe </th>
+			<th> Árbitro </th>
+			<th> Workout </th>
+			<th> Número de ex </th>
+			<th>  </th>
+		</tr>
+		<tr>
+			<td> <input type="text"> </td>
+			<td> </td>
+			<td> </td>
+			<td> </td>
+			<td> <input type="button" value="Enviar"> </td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr ng-repeat="x in ctrl.listaWorkouts">
+			<td> {{x.numero}} </td>
+			<td> {{x.exercicios}} </td>
+		</tr>
+	</table>
+	<br>
+	<input type="button" value="Enviar todos">
+	<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+
+</div>
