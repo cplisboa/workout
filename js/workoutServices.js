@@ -11,7 +11,7 @@ angular.module('workout').factory('workoutFactory', function($http, workoutServe
 	
 	workoutFactory.buscarArduinos = function() {
 		var parametros = "";
-		return $http.get(baseUrl, {});
+		return $http.get(workoutServer+"/equipamentos", {});
 	};
 
 	workoutFactory.salvaWorkout = function(workout) {
