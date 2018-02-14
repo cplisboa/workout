@@ -14,6 +14,11 @@ angular.module('workout').factory('workoutFactory', function($http, workoutServe
 		return $http.get(workoutServer+"/equipamentos", {});
 	};
 
+	workoutFactory.enviarComando = function(arduino) {
+		return $http.post(workoutServer+"/comando", arduino);
+	};
+
+
 	workoutFactory.salvaWorkout = function(workout) {
 		return $http.post(baseUrl, workout);
 	}; 

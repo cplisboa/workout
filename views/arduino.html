@@ -2,36 +2,58 @@
 <div ng-controller="arduinoCtrl as ctrl">
 
 	<h2> Comandar arduino </h2>
-	<form>
-		<div class="form-group">				
-			<input ng-model="ctrl.workout.numero" placeholder="Número"><br>
-			<input ng-model="ctrl.workout.exercicios" placeholder="Exercícios">
+	
+	<div class="row">
+		<div class="col-md-6 ">
+			<h3> Arduinos registrados</h3>
+			<table class="table table-striped">
+				<tr>
+					<td> Serial </td>
+					<td> IP </td>
+					<td> Data de Registro </td>
+				</tr>
+				<tr ng-repeat="x in ctrl.arduinos | orderBy:'dataRegistro'">
+					<td> {{x.serial}} </td>
+					<td> {{x.ip}} </td>
+					<td> {{x.dataRegistro}} </td>
+				</tr>
+			</table>
 		</div>
-	</form>
-
-	<div class="form-group">
-		<div class="col-md-9">
-			<input type="button" ng-click="ctrl.cadastra(ctrl.workout)" class="btn btn-success" value="Cadastra workout">
-
-			<input type="button" ng-click="ctrl.buscaWorkout()" class="btn btn-warning" value="Buscar workouts">
-		</div>
-<!--	<div class="col-md-3">
-			<input type="button" ng-click="ctrl.redirecionaStats()" class="btn btn-info" value="Estatísticas">
-		</div>			 -->
 	</div>
 
-	<br><br>
-	<table class="table table-striped">
-		<tr>
-			<td> Número </td>
-			<td> Exercícios </td>
-		</tr>
-		<tr ng-repeat="x in ctrl.listaWorkouts | orderBy:'numero'">
-			<td> {{x.numero}} </td>
-			<td> {{x.exercicios}} </td>
-		</tr>
-	</table>
+	<form name="ardForm">
+		<div class="row">
+			<div class="col-md-6 ">
+				Selecione o arduino para enviar comandos
+				
+				<select style="width: 200px;" class="form-control" ng-required="true" ng-model="ctrl.arduinoSelecionado"
+					ng-options="arduino as arduino.serial for arduino in ctrl.arduinos">
+					<option value="" ng-if="false"></option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6 ">
+				Comando a ser enviado	
+				<input class="form-control" ng-model="ctrl.comando" ng-required="true" placeholder="e.g. team 13">
+			</div>
+		</div>		
+		
+		<br>
+		<div class="row">	
+			<div class="col-md-6">
+				<input type="button" ng-disabled="ardForm.$invalid" ng-click="ctrl.enviarComando()" class="btn btn-success" value="Enviar comando">
+				<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+			</div>
+		</div>
+	</form>
+	
+	<br>
+	<div ng-show="ctrl.resposta != null && ctrl.resposta != ''">
+		<h3> Resposta: {{ctrl.resposta}} </h3>
+	</div>
+	
 
-	<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
 
 </div>

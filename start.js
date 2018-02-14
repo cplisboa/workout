@@ -8,9 +8,10 @@ var app = express();
 app.use(express.static('./'));
 app.use(express.static('/js'));
 app.use(express.static('/views'));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+var PORTA_UDP = 41234;
 
 app.route('/workout').post( function(req, res){
 	res.contentType('application/json');
@@ -32,9 +33,7 @@ app.route('/workout').post( function(req, res){
 		//res.send("Nenhum dispositivo encontrado na lista de dispositivos que se apresentaram no sistema");
 	}
 	
-	//Realizando envio para determinado equipamento com serial selecionado
-	
-	
+	//Realizando envio para determinado equipamento com serial selecionado		
 	//res.send(req.body);
 });
 
@@ -42,6 +41,15 @@ app.get("/equipamentos", function(req,res) {
 	console.log("Recuperando lista de equipamentos registrados");
 	var lista = arduino.equipamentosRegistrados();
 	res.send(lista);
+});
+
+app.route('/comando').post( function(req, res){
+	res.contentType('application/json');
+	console.log(req.body);	
+
+	//Enviando comando por UDP
+	arduino.send(req.body.ip,req.body.comando);
+	res.send("comando enviado com sucesso");
 });
 
 		
@@ -77,7 +85,6 @@ app.listen(3000, function () {
 	});
 
 	server.on('message', (msg, rinfo) => {
-		
     	console.log("Mensagem recebida do IP " + rinfo.address + " - "+msg)
     	var dados = msg.toString().split(" ");    	
     	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
@@ -92,9 +99,11 @@ app.listen(3000, function () {
 	server.bind(41234);
 	// server listening 0.0.0.0:41234
 	
-	console.log("Socket UDP escutando na porta 41234\n");
+	console.log("Servidor WEB escutando a porta 3000\n");
+	console.log("Socket UDP escutando na porta " + PORTA_UDP + "\n");
+	
 	
 	//Fazendo mensagem de teste
-	arduino.send("192.168.0.149","Envio de msg!!");
+	//arduino.send("192.168.0.149","Envio de msg!!");
 	
 });

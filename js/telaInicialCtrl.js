@@ -26,6 +26,13 @@ angular.module('workout').controller('telaInicialCtrl', function($scope, $locati
  	    //ctrl.telaInicial = false;
  	    $location.path('/resultados');
 	};
+	
+	ctrl.abreArduino = function(){ 	     
+		$rootScope.telaInicial = false;
+ 	    //ctrl.telaInicial = false;
+ 	    $location.path('/arduino');
+	};
+	
 
 	ctrl.voltar = function(){
 		console.log("Voltando para tela de inicio");

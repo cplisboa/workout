@@ -1,6 +1,26 @@
 var dgram = require('dgram');
+var PORT = 4210;
 
-exports.clients = [];
+//exports.clients = [];
+
+//Começando lista de devices não zerados
+exports.clients = [
+	{
+		serial: "aaaa",
+		ip: "192.168.0.5",
+		dataRegistro: Date()
+	},
+	{
+		serial: "bbbb",
+		ip: "192.168.0.8",
+		dataRegistro: Date()
+	},
+	{
+		serial: "cccc",
+		ip: "192.168.0.13",
+		dataRegistro: Date()
+	}		
+];
 
 exports.myDateTime = function () {
     return Date();
@@ -27,21 +47,17 @@ exports.findDevice = function(serial){
 
 exports.addDevice = function(device){
 	console.log("dispositivo para adicionar. "+device.serial+":"+device.ip+":"+device.dataRegistro);
-	exports.clients.push(device);
+	exports.clients.push(device);	
 };
-
-var PORT = 33333;
-var HOST = '127.0.0.1';
 
 exports.send = function(ip, msg){
 	
 	const dgram = require('dgram');
 	const message = Buffer.from(msg);
 	const client = dgram.createSocket('udp4');
-	client.send(message, 1111, ip, (err) => {
+	client.send(message, PORT, ip, (err) => {
 	  client.close();
-	  console.log('UDP message sent to ' + ip +':'+ 1111);
-	});	
-	
+	  console.log('UDP message sent to ' + ip +':'+ PORT + " "+msg);
+	});		
 };
 
