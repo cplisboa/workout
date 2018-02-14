@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var net = require('net');
-var db = require("./db.js");
+var arduino = require("./arduinodevices.js");
 
 var app = express();
 
@@ -16,33 +16,39 @@ app.route('/workout').post( function(req, res){
 	res.contentType('application/json');
 	console.log("Realizado post em workout");
 	console.log(req.body);
-
-	console.log("Realizando insert no mongo")
+	console.log("Serial recebido: "+req.body.serial);
 	
-	var conn = db.Mongoose.connection;
-	conn.on('error', console.error.bind(console, 'connection error:'));
-	conn.once('open', function() {
-  		console.log("Conectado no mongodb. Schema Workout");
-  		var Workout = db.Mongoose.model('workoutcollection', db.WorkoutSchema, 'workoutcollection');
-		var work = new Workout({numero: req.body.numero, exercicios: req.body.exercicios});
-		work.save(function (err) {
-  			if (err) {
-    			console.log(err);
-  			} else {
-    			console.log('Insert realizado');
-  			}
-		});
-	});
-
-
-	console.log("---------------------");
-	res.send(req.body);
+	var ip = arduino.findDevice(req.body.serial);
+	console.log("IP encontrado: "+ip);
+	if(ip != null){
+		console.log("Encontrei dispositivo. Enviando TEAM para dispositivo de IP " + ip);
+		
+		console.log("Teste enviando msg UDP....");
+		arduino.send("teste de mensagem",ip);		
+		
+		//res.send("Encontrado dispositivo na lista. Podemos enviar informações para ele sim. IP"+ip);
+	} else {
+		console.log("Nenhum dispositivo com esse IP encontrado, retornando essa informação para a página")
+		//res.send("Nenhum dispositivo encontrado na lista de dispositivos que se apresentaram no sistema");
+	}
+	
+	//Realizando envio para determinado equipamento com serial selecionado
+	
+	
+	//res.send(req.body);
 });
+
+app.get("/equipamentos", function(req,res) {
+	console.log("Recuperando lista de equipamentos registrados");
+	var lista = arduino.equipamentosRegistrados();
+	res.send(lista);
+});
+
 		
 /* GET workoutList page. */
 app.get('/workout', function(req, res) {
    console.log("Recuperando lista de workouts");
-
+   /*
    db.Workout.find(function (err, workouts) {
 		if (err) 
 			return console.error(err);
@@ -51,8 +57,8 @@ app.get('/workout', function(req, res) {
 		}
   		console.log(workouts);
 	});
-
-   res.send("Trabalho feito");
+	*/
+    res.send("Trabalho feito");
 /*
    var Workouts = db.Mongoose.model('workoutcollection', db.WorkoutSchema, 'workoutcollection');
    Workouts.find({}).lean().exec(
@@ -62,36 +68,33 @@ app.get('/workout', function(req, res) {
 });
 
 app.listen(3000, function () {
-    console.log('Servidor node escutando na porta 3000!');
-    clients = [];
+	const dgram = require('dgram');
+	const server = dgram.createSocket('udp4');
 
-    //Iniciando socket de comunicação com o arduino
-    net.createServer(function(socket) {
+	server.on('error', (err) => {
+	  console.log(`server error:\n${err.stack}`);
+	  server.close();
+	});
 
-	  	//Identificando o client que conectou
-	  	socket.name = socket.remoteAddress + ":" + socket.remotePort;
-	  	console.log("conectou o client "+socket.name);
+	server.on('message', (msg, rinfo) => {
+		
+    	console.log("Mensagem recebida do IP " + rinfo.address + " - "+msg)
+    	var dados = msg.toString().split(" ");    	
+    	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
+    	arduino.addDevice({"serial":dados[0], "ip":dados[1], "dataRegistro": Date()});    	
+	});
 
-	    // Send a nice welcome message and announce
-	  	socket.write("Seja bem vindo " + socket.name + "\n");
-	  	
-	    // Handle incoming messages from clients.
-	    socket.on('data', function (data) {
-	    	console.log("Mensagem recebida: "+data)
-	    	var dados = data.toString().split(" ");
-	    	console.log("Serial: "+dados[0]);
-	    	console.log("IP: "+dados[2]);
-	    	socket.name = dados[0];
-	        //broadcast(socket.name + "> " + data, socket);
-	    });
+	server.on('listening', () => {
+		const address = server.address();
+		console.log("server listening "+address.address+":"+address.port);
+	});
 
-	    // Remove the client from the list when it leaves
-	    socket.on('end', function () {
-	        clients.splice(clients.indexOf(socket), 1);
-	        console.log(socket.name + " Fechou a conexão.\n");
-	    });
-	}).listen(5000);
-
-	// Put a friendly message on the terminal of the server.
-	console.log("Socket server escutando na porta 5000\n");  	
+	server.bind(41234);
+	// server listening 0.0.0.0:41234
+	
+	console.log("Socket UDP escutando na porta 41234\n");
+	
+	//Fazendo mensagem de teste
+	arduino.send("192.168.0.149","Envio de msg!!");
+	
 });

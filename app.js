@@ -13,7 +13,11 @@ angular.module('workout', ['ngRoute'])
 	}).when('/gerenciarLogger', {
 		templateUrl : 'views/gerenciarLogger.html',
 		label : 'Gerenciar Logger'						
-			
+
+	}).when('/arduino', {
+		templateUrl : 'views/arduino.html',
+		label : 'Comandar arduinos'						
+						
 	}).when('/atribuirLogger', {
 		templateUrl : 'views/atribuirWorkout.html',
 		label : 'Atribuir Logger'
@@ -42,6 +46,3 @@ angular.module('workout', ['ngRoute'])
 	//$httpProvider.interceptors.push('authInterceptor');
 
 });
-
-
-

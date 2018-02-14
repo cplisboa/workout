@@ -27,7 +27,8 @@ angular.module('workout').controller('cadastraWorkoutCtrl', function($rootScope,
 		console.log("iniciando cadastro de workout")
 		var newWorkout = {
 			numero: ctrl.workout.numero,
-			exercicios: ctrl.workout.exercicios
+			exercicios: ctrl.workout.exercicios,
+			serial: "aaaooo"
 		};
 		
 		//ctrl.listaWorkouts.push(newWorkout);

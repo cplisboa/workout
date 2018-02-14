@@ -7,13 +7,17 @@ angular.module('workout').factory('workoutFactory', function($http, workoutServe
 		return $http.get(baseUrl, {
 					params : parametros
 				});
-
+	};
+	
+	workoutFactory.buscarArduinos = function() {
+		var parametros = "";
+		return $http.get(baseUrl, {});
 	};
 
 	workoutFactory.salvaWorkout = function(workout) {
 		return $http.post(baseUrl, workout);
-	};
-
+	}; 
+	
 	return workoutFactory;
 
 });
