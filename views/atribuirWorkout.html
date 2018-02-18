@@ -3,6 +3,28 @@
 	
 	<h2> Atribuir workout </h2>
 	
+	<h2> Lista de workouts cadastrados </h2>
+	
+	<table>
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col"> Nome </th>
+				<th scope="col"> Exercicios </th>
+			</tr>
+		</thead>
+		<tr ng-repeat="treino in ctrl.listaTreinos">
+			<td scope="row"> {{treino.nome}} </td>
+			<td>
+				<ul>
+					<li ng-repeat="exo in treino.listaExos"> 
+						{{exo.nome}}  {{exo.repeticoes}} repetições					 
+					</li>
+				</ul>
+			</td>			
+		</tr>
+			
+	</table>
+	
 	<!--
 	<form>
 		<div class="form-group">				

@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var net = require('net');
 var arduino = require("./arduinodevices.js");
-
+var db = require("./db.js");
 var app = express();
 
 app.use(express.static('./'));
@@ -13,28 +13,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var PORTA_UDP = 41234;
 
+app.route('/treino').get( function(req,res) {
+	console.log("Buscando lista de treinos.");
+    db.Treino.find(function (err, treinos) {
+		if (err) return console.error(err);
+  		res.send(treinos);
+    });		
+});
+
 app.route('/workout').post( function(req, res){
 	res.contentType('application/json');
-	console.log("Realizado post em workout");
+	console.log("Realizado post em workout (TREINO)");
 	console.log(req.body);
-	console.log("Serial recebido: "+req.body.serial);
-	
-	var ip = arduino.findDevice(req.body.serial);
-	console.log("IP encontrado: "+ip);
-	if(ip != null){
-		console.log("Encontrei dispositivo. Enviando TEAM para dispositivo de IP " + ip);
-		
-		console.log("Teste enviando msg UDP....");
-		arduino.send("teste de mensagem",ip);		
-		
-		//res.send("Encontrado dispositivo na lista. Podemos enviar informações para ele sim. IP"+ip);
-	} else {
-		console.log("Nenhum dispositivo com esse IP encontrado, retornando essa informação para a página")
-		//res.send("Nenhum dispositivo encontrado na lista de dispositivos que se apresentaram no sistema");
-	}
-	
-	//Realizando envio para determinado equipamento com serial selecionado		
-	//res.send(req.body);
+
+	treino = new db.Treino(req.body);
+	db.saveTreino(treino);
+	res.send("Treino Salvo com sucesso");
 });
 
 app.get("/equipamentos", function(req,res) {
@@ -56,23 +50,12 @@ app.route('/comando').post( function(req, res){
 /* GET workoutList page. */
 app.get('/workout', function(req, res) {
    console.log("Recuperando lista de workouts");
-   /*
+   
    db.Workout.find(function (err, workouts) {
-		if (err) 
-			return console.error(err);
-		for(i=0; i<workouts.length;i++){
-			console.log(workouts[i]);
-		}
+		if (err) return console.error(err);
   		console.log(workouts);
-	});
-	*/
-    res.send("Trabalho feito");
-/*
-   var Workouts = db.Mongoose.model('workoutcollection', db.WorkoutSchema, 'workoutcollection');
-   Workouts.find({}).lean().exec(
-      function (e, docs) {
-         res.render('workoutlist', { "workoutlist": docs });
-   });*/
+  		res.send(workouts);
+   });	    
 });
 
 app.listen(3000, function () {
