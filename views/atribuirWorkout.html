@@ -4,8 +4,7 @@
 	<h2> Atribuir workout </h2>
 	
 	<h2> Lista de workouts cadastrados </h2>
-	
-	<table>
+	<table class="table table-striped">
 		<thead class="thead-dark">
 			<tr>
 				<th scope="col"> Nome </th>
@@ -21,55 +20,30 @@
 					</li>
 				</ul>
 			</td>			
-		</tr>
-			
+		</tr>			
 	</table>
 	
-	<!--
-	<form>
-		<div class="form-group">				
-			<input ng-model="ctrl.workout.numero" placeholder="Número"><br>
-			<input ng-model="ctrl.workout.exercicios" placeholder="Exercícios">
-		</div>
-	</form>  -->
-
 	<br><br>
 	<table class="table table-striped">
 		<tr>
 			<th> Equipe </th>
-			<th> Árbitro </th>
 			<th> Workout </th>
-			<th> Número de ex </th>
+			<th> Número de exercícios </th>
 			<th>  </th>
 		</tr>
 		<tr>
-			<td> <input type="text"> </td>
-			<td> </td>
-			<td> </td>
-			<td> </td>
-			<td> <input type="button" value="Enviar"> </td>
+			<td style="width: 200px;"> <input type="text"> </td>
+			<td> 
+				<select class="form-control" style="width: '200px'" ng-model="ctrl.treinoParaEnviar" ng-options="treino.nome for treino in ctrl.listaTreinos">				
+				</select>			
+			</td>			
+			<td> {{ ctrl.treinoParaEnviar.listaExos.length }} </td>
+			<td> <input type="button" value="Enviar" ng-click="ctrl.enviar(ctrl.treinoParaEnviar)"> </td>
 		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr ng-repeat="x in ctrl.listaWorkouts">
-			<td> {{x.numero}} </td>
-			<td> {{x.exercicios}} </td>
-		</tr>
+
 	</table>
 	<br>
-	<input type="button" value="Enviar todos">
-	<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+	<input type="button" value="Enviar todos" class="btn btn-success">
+	<input type="button" value="Voltar" 	  class="btn btn-primary" ng-click="ctrl.voltar()">
 
 </div>

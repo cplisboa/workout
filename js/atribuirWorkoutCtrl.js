@@ -25,5 +25,10 @@ angular.module('workout').controller('atribuirWorkoutCtrl', function($rootScope,
 		ctrl.buscaTreinos();
 	};
 	
+	ctrl.enviar = function(treino){
+		// Pegar treino e logger e criar um objeto unico para esse envio.
+		console.log("Futuramente vai enviar")
+	};
+	
 	ctrl.inicializar();	
 });
