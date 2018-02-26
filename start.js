@@ -21,6 +21,13 @@ app.route('/treino').get( function(req,res) {
     });		
 });
 
+app.route('/treino').post( function(req,res) {
+	console.log("Enviar treino para o arduino");
+	arduino.enviaTreino(req.body.treino, req.body.arduino, req.body.team);
+	res.send("Comando enviado para arduino");
+});
+
+
 app.route('/workout').post( function(req, res){
 	res.contentType('application/json');
 	console.log("Realizado post em workout (TREINO)");
@@ -63,15 +70,21 @@ app.listen(3000, function () {
 	const server = dgram.createSocket('udp4');
 
 	server.on('error', (err) => {
-	  console.log(`server error:\n${err.stack}`);
+	  console.log("server error:\n${err.stack} ");
+	  console.log("erro;")
 	  server.close();
 	});
 
 	server.on('message', (msg, rinfo) => {
     	console.log("Mensagem recebida do IP " + rinfo.address + " - "+msg)
-    	var dados = msg.toString().split(" ");    	
-    	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
-    	arduino.addDevice({"serial":dados[0], "ip":dados[1], "dataRegistro": Date()});    	
+    	var dados = msg.toString().split(" "); 
+    	if(dados[0]=='hey'){
+	    	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
+	    	arduino.addDevice({serial:dados[1], ip:dados[2], dataRegistro: Date()});
+    	} else {
+    		console.log("Comando desconhecido "+msg)
+    	}
+    	arduino.podeEnviar = true;
 	});
 
 	server.on('listening', () => {
@@ -79,14 +92,7 @@ app.listen(3000, function () {
 		console.log("server listening "+address.address+":"+address.port);
 	});
 
-	server.bind(41234);
-	// server listening 0.0.0.0:41234
-	
+	server.bind(PORTA_UDP);
 	console.log("Servidor WEB escutando a porta 3000\n");
-	console.log("Socket UDP escutando na porta " + PORTA_UDP + "\n");
-	
-	
-	//Fazendo mensagem de teste
-	//arduino.send("192.168.0.149","Envio de msg!!");
-	
+	console.log("Socket UDP escutando na porta " + PORTA_UDP + "\n");	
 });

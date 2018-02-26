@@ -1,30 +1,15 @@
 var dgram = require('dgram');
+//var sleep = require('sleep');
 var PORT = 4210;
 
-//exports.clients = [];
-
-//Começando lista de devices não zerados
+exports.podeEnviar = true;
 exports.clients = [
 	{
-		serial: "aaaa",
-		ip: "192.168.0.5",
-		dataRegistro: Date()
-	},
-	{
-		serial: "bbbb",
-		ip: "192.168.0.8",
-		dataRegistro: Date()
-	},
-	{
-		serial: "cccc",
+		serial: "aaaaOOO",
 		ip: "192.168.0.13",
 		dataRegistro: Date()
 	}		
 ];
-
-exports.myDateTime = function () {
-    return Date();
-};
 
 exports.equipamentosRegistrados = function() {
 	return exports.clients;
@@ -48,10 +33,26 @@ exports.findDevice = function(serial){
 exports.addDevice = function(device){
 	console.log("dispositivo para adicionar. "+device.serial+":"+device.ip+":"+device.dataRegistro);
 	exports.clients.push(device);	
+	
 };
 
-exports.send = function(ip, msg){
-	
+exports.enviaTreino = function(treino, arduino, team){
+	console.log("Enviando treino por UDP");
+	exports.send(arduino.ip, "team");
+	exports.send(arduino.ip, team.toString());
+	exports.send(arduino.ip, "wrkt");
+	exports.send(arduino.ip, treino.nome.toString());
+	exports.send(arduino.ip, "qntex");
+	exports.send(arduino.ip, treino.listaExos.length.toString());
+	exports.send(arduino.ip, "task");
+
+	for(var i=0; i<treino.listaExos.length; i++){
+		exports.send(arduino.ip, treino.listaExos[i].nome);
+		exports.send(arduino.ip, treino.listaExos[i].repeticoes.toString());
+	}
+};
+
+exports.send = function(ip, msg){	
 	const dgram = require('dgram');
 	const message = Buffer.from(msg);
 	const client = dgram.createSocket('udp4');

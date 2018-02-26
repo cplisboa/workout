@@ -8,6 +8,10 @@ angular.module('workout').factory('treinoFactory', function($http, workoutServer
 			params : parametros
 		});
 	};
+
+	treinoFactory.enviarTreino = function(treino) {
+		return $http.post(baseUrl, treino);
+	};
 	
 	return treinoFactory;
 

@@ -29,15 +29,22 @@
 			<th> Equipe </th>
 			<th> Workout </th>
 			<th> Número de exercícios </th>
+			<th> Data-logger para enviar </th>
 			<th>  </th>
 		</tr>
 		<tr>
-			<td style="width: 200px;"> <input type="text"> </td>
+			<td style="width: 200px;"> <input type="text" ng-model="ctrl.team"> </td>
 			<td> 
 				<select class="form-control" style="width: '200px'" ng-model="ctrl.treinoParaEnviar" ng-options="treino.nome for treino in ctrl.listaTreinos">				
 				</select>			
 			</td>			
 			<td> {{ ctrl.treinoParaEnviar.listaExos.length }} </td>
+			<td>
+				<select style="width: 200px;" class="form-control" ng-required="true" ng-model="ctrl.arduinoSelecionado"
+					ng-options="arduino.serial for arduino in ctrl.arduinos">
+					<option value=""></option>
+				</select>			
+			</td>
 			<td> <input type="button" value="Enviar" ng-click="ctrl.enviar(ctrl.treinoParaEnviar)"> </td>
 		</tr>
 

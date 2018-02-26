@@ -31,7 +31,6 @@ exports.buscaWorkouts = function(){
 	});
 };
 
-
 //MODELO TREINO
 exports.treinoSchema = new mongoose.Schema({
     nome: String,
