@@ -1,10 +1,10 @@
 var dgram = require('dgram');
 var PORT = 4210;
 
-exports.podeEnviar = true;
+//exports.podeEnviar = true;
 exports.clients = [
 	{
-		serial: "aaaaOOO",
+		serial: "DUMMY-DUMMY",
 		ip: "192.168.0.13",
 		dataRegistro: Date()
 	}		
@@ -26,22 +26,17 @@ exports.findDevice = function(serial){
 	    }
 	});
 	return ip;
-	
 };
 
 exports.addDevice = function(device){
 	console.log("dispositivo para adicionar. "+device.serial+":"+device.ip+":"+device.dataRegistro);
 	exports.clients.push(device);	
-	
 };
 
 exports.enviaTreino = function(treino, arduino, team){
 	console.log("Enviando treino por UDP");
 	exports.send(arduino.ip, "team");
-/*	exports.send(arduino.ip, team.toString());
-	exports.send(arduino.ip, "wrkt");
-	exports.send(arduino.ip, treino.nome.toString());*/
-	
+	//Apenas inicio da comunicação. Restante ocorre no start.js na recepção de mensagens	
 };
 
 exports.send = function(ip, msg){	
@@ -53,4 +48,3 @@ exports.send = function(ip, msg){
 	  console.log('UDP message sent to ' + ip +':'+ PORT + " "+msg);
 	});		
 };
-

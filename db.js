@@ -56,8 +56,6 @@ exports.buscaTreinos = function(){
 	});
 };
 
-
-
 //MODELO EXERCICIO
 exports.exercicioSchema = new mongoose.Schema({
     nome: String,
