@@ -1,5 +1,4 @@
 var dgram = require('dgram');
-//var sleep = require('sleep');
 var PORT = 4210;
 
 exports.podeEnviar = true;
@@ -39,17 +38,10 @@ exports.addDevice = function(device){
 exports.enviaTreino = function(treino, arduino, team){
 	console.log("Enviando treino por UDP");
 	exports.send(arduino.ip, "team");
-	exports.send(arduino.ip, team.toString());
+/*	exports.send(arduino.ip, team.toString());
 	exports.send(arduino.ip, "wrkt");
-	exports.send(arduino.ip, treino.nome.toString());
-	exports.send(arduino.ip, "qntex");
-	exports.send(arduino.ip, treino.listaExos.length.toString());
-	exports.send(arduino.ip, "task");
-
-	for(var i=0; i<treino.listaExos.length; i++){
-		exports.send(arduino.ip, treino.listaExos[i].nome);
-		exports.send(arduino.ip, treino.listaExos[i].repeticoes.toString());
-	}
+	exports.send(arduino.ip, treino.nome.toString());*/
+	
 };
 
 exports.send = function(ip, msg){	

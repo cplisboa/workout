@@ -1,1 +1,1 @@
-"C:\Program Files\MongoDB\Server\3.4\bin\mongod" --dbpath c:\Users\cplis\Dropbox\workoutProject\data\
+"C:\Program Files\MongoDB\Server\3.4\bin\mongod" --dbpath c:\data\

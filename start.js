@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var PORTA_UDP = 41234;
+treino = null;
 
 app.route('/treino').get( function(req,res) {
 	console.log("Buscando lista de treinos.");
@@ -23,7 +24,9 @@ app.route('/treino').get( function(req,res) {
 
 app.route('/treino').post( function(req,res) {
 	console.log("Enviar treino para o arduino");
+	treino = req.body;
 	arduino.enviaTreino(req.body.treino, req.body.arduino, req.body.team);
+	
 	res.send("Comando enviado para arduino");
 });
 
@@ -81,9 +84,52 @@ app.listen(3000, function () {
     	if(dados[0]=='hey'){
 	    	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
 	    	arduino.addDevice({serial:dados[1], ip:dados[2], dataRegistro: Date()});
-    	} else {
-    		console.log("Comando desconhecido "+msg)
     	}
+    	
+    	if(dados[0] == 'wtn' && dados[1] == 'team'){
+    		console.log("....  Arduino quer nome do time");
+    		arduino.send(treino.arduino.ip, treino.team.toString());
+    	}
+    	
+    	if(dados[0] == 'team' && dados[1] == 'num'){
+    		console.log("....  Enviar workout");
+    		arduino.send(treino.arduino.ip, "wrkt");
+    	}
+    	
+    	if(dados[0] == 'wtn' && dados[1] == 'wrkt'){
+    		console.log("....  Enviar numero do workout");
+    		arduino.send(treino.arduino.ip, treino.treino.nome.toString());
+    	}    	    	
+    	
+    	if(dados[0]=='wrkt' && dados[1]=='num'){
+    		console.log("....  Arduino aceitou comando wrkt");
+    		arduino.send(treino.arduino.ip,"qntex");
+    	}
+    	
+    	if(dados[0]=='wtn' && dados[1]=='qntex'){
+    		console.log("....  Arduino quer quantidade do qntex");
+    		arduino.send(treino.arduino.ip,treino.treino.listaExos.length.toString());
+    	}
+    	
+    	if(dados[0]=='qntex' && dados[1]=='num'){
+    		console.log("....  Arduino aceitou qntex");
+    		arduino.send(treino.arduino.ip,"task");
+    	}
+    	
+    	if(dados[0] == 'task'){
+    		console.log("....  Arduino quer a task #"+dados[1]);
+    		arduino.send(treino.arduino.ip,treino.treino.listaExos[dados[1]].nome);
+    	}
+    	
+    	if(dados[0] == 'idok'){
+    		console.log("....  id ok.Enviar repetições do exo #"+dados[1]);
+    		arduino.send(treino.arduino.ip,treino.treino.listaExos[dados[1]].repeticoes.toString());
+    	}
+    	
+    	if(dados[0] == 'repetok'){
+    		console.log("....  Arduino aceitou repetições #"+dados[1]);
+    	}
+    	
     	arduino.podeEnviar = true;
 	});
 
