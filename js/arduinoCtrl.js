@@ -1,4 +1,4 @@
-angular.module('workout').controller('arduinoCtrl', function($rootScope, $location, workoutFactory){
+angular.module('workout').controller('arduinoCtrl', function($timeout, $rootScope, $location, workoutFactory){
 
 	var ctrl = this;
 
@@ -13,6 +13,7 @@ angular.module('workout').controller('arduinoCtrl', function($rootScope, $locati
 			ctrl.arduinos = lista;
 			console.log("Busca realizada com sucesso");
 			console.log(ctrl.arduinos);
+			 $timeout(ctrl.buscaArduinos, 1000);
 		}).error(function(data, status, headers, config) {
 			var msgErro = angular.isDefined(data.mensagemErro) ? data.mensagemErro : data;
 			console.log('Erro ao tentar buscar arduinos. ' + data);

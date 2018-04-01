@@ -1,59 +1,72 @@
 
-<div ng-controller="arduinoCtrl as ctrl">
-
-	<h2> Comandar arduino </h2>
+	<div ng-controller="arduinoCtrl as ctrl">
 	
-	<div class="row">
-		<div class="col-md-6 ">
-			<h3> Arduinos registrados</h3>
-			<table class="table table-striped">
-				<tr>
-					<td> Serial </td>
-					<td> IP </td>
-					<td> Data de Registro </td>
-				</tr>
-				<tr ng-repeat="x in ctrl.arduinos | orderBy:'dataRegistro'">
-					<td> {{x.serial}} </td>
-					<td> {{x.ip}} </td>
-					<td> {{x.dataRegistro}} </td>
-				</tr>
-			</table>
-		</div>
-	</div>
-
-	<form name="ardForm">
-		<div class="row">
-			<div class="col-md-6 ">
-				Selecione o arduino para enviar comandos
-				
-				<select style="width: 200px;" class="form-control" ng-required="true" ng-model="ctrl.arduinoSelecionado"
-					ng-options="arduino as arduino.serial for arduino in ctrl.arduinos">
-					<option value=""></option>
-				</select>
-			</div>
-		</div>
+		<h2> Comandar arduino </h2>
 		
 		<div class="row">
 			<div class="col-md-6 ">
-				Comando a ser enviado	
-				<input class="form-control" ng-model="ctrl.comando" ng-required="true" placeholder="e.g. team 13">
+				<h3> Arduinos registrados</h3>
+				<table class="table table-striped">
+					<tr>
+						<td> Serial </td>
+						<td> IP </td>
+						<td> Status </td>
+						<td> Exercício </td>
+						<td> Repetição </td>
+						<td> Tempo na Prova </td>
+					</tr>
+					<tr ng-repeat="x in ctrl.arduinos | orderBy:'dataRegistro'">
+						<td> {{x.serial}} </td>
+						<td> {{x.ip}} </td>
+						<td> 
+							<div ng-if="x.status=='run'" class="alert alert-success" role="alert">
+	  							Running
+	  						</div>
+							<div ng-if="x.status=='stop'" class="alert alert-danger" role="alert">
+	  							Stop
+	  						</div>
+						</td>
+						<td> {{x.exo}} </td>
+						<td> {{x.repeticoes}} </td>
+						<td> {{x.tempo}} </td>
+					</tr>
+				</table>
 			</div>
-		</div>		
+		</div>
+	
+		<form name="ardForm">
+			<div class="row">
+				<div class="col-md-6 ">
+					Selecione o arduino para enviar comandos
+					
+					<select style="width: 200px;" class="form-control" ng-required="true" ng-model="ctrl.arduinoSelecionado"
+						ng-options="arduino as arduino.serial for arduino in ctrl.arduinos">
+						<option value=""></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6 ">
+					Comando a ser enviado	
+					<input class="form-control" ng-model="ctrl.comando" ng-required="true" placeholder="e.g. team 13">
+				</div>
+			</div>		
+			
+			<br>
+			<div class="row">	
+				<div class="col-md-6">
+					<input type="button" ng-disabled="ardForm.$invalid" ng-click="ctrl.enviarComando()" class="btn btn-success" value="Enviar comando">
+					<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
+				</div>
+			</div>
+		</form>
 		
 		<br>
-		<div class="row">	
-			<div class="col-md-6">
-				<input type="button" ng-disabled="ardForm.$invalid" ng-click="ctrl.enviarComando()" class="btn btn-success" value="Enviar comando">
-				<input type="button" value="Voltar" class="btn btn-primary" ng-click="ctrl.voltar()">
-			</div>
+		<div ng-show="ctrl.resposta != null && ctrl.resposta != ''">
+			<h3> Resposta: {{ctrl.resposta}} </h3>
 		</div>
-	</form>
+		
 	
-	<br>
-	<div ng-show="ctrl.resposta != null && ctrl.resposta != ''">
-		<h3> Resposta: {{ctrl.resposta}} </h3>
+	
 	</div>
-	
-
-
-</div>

@@ -14,12 +14,24 @@ exports.equipamentosRegistrados = function() {
 	return exports.clients;
 }
 
+//Atualiza arduino com execução da prova
+exports.updateArduino = function(ip, status, exo, repeticoes, tempo){
+	exports.clients.forEach(function (ardo) {
+		if(ardo.ip.toString() == ip.toString){
+			ardo.status = status;
+			ardo.exo = exo;
+			ardo.repeticoes = repeticoes;
+			ardo.tempo = tempo;
+			console.log("Arduino "+ip+" atualizado com execução da prova.");
+		}
+	});	
+}
+
 exports.findDevice = function(serial){
 	var ip = null;
 	console.log(exports.clients);
 	console.log("Serial para buscar: "+serial);
 	exports.clients.forEach(function (client) {
-		console.log("serial do client x "+client.serial)
 	    if (client.serial.toString() == serial.toString()){
 	    	console.log("Achou!");
 	    	ip = client.ip;	      

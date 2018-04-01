@@ -78,7 +78,8 @@ app.listen(3000, function () {
 	});
 
 	server.on('message', (msg, rinfo) => {
-    	console.log("Mensagem recebida do IP " + rinfo.address + " - "+msg)
+    	var ip = rinfo.address;
+		console.log("Mensagem recebida do IP " + ip + " - "+msg)
     	var dados = msg.toString().split(" "); 
     	if(dados[0]=='hey'){
 	    	console.log("Adicionando equipamento na lista de dispositivos disponíveis.");
@@ -111,6 +112,10 @@ app.listen(3000, function () {
     	
     	if(dados[0] == 'repetok')
     		console.log("....  Arduino aceitou repetições #"+dados[1]);
+    	
+    	//Pacotes de atualização de PROVA
+    	if(dados[0] == 'run' || dados[0] == 'stop')
+    		arduino.updateArduino(ip, dados[0], dados[1], dados[2], dados[3]);
 
 	});
 
