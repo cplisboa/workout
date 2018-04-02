@@ -114,7 +114,7 @@ app.listen(3000, function () {
     		console.log("....  Arduino aceitou repetições #"+dados[1]);
     	
     	//Pacotes de atualização de PROVA
-    	if(dados[0] == 'run' || dados[0] == 'stop')
+    	if(dados[0] == 'run' || dados[0] == 'stop' || dados[0] == 'finished')
     		arduino.updateArduino(ip, dados[0], dados[1], dados[2], dados[3]);
 
 	});

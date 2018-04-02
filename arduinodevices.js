@@ -17,7 +17,7 @@ exports.equipamentosRegistrados = function() {
 //Atualiza arduino com execução da prova
 exports.updateArduino = function(ip, status, exo, repeticoes, tempo){
 	exports.clients.forEach(function (ardo) {
-		if(ardo.ip.toString() == ip.toString){
+		if(ardo.ip.toString() == ip.toString()){
 			ardo.status = status;
 			ardo.exo = exo;
 			ardo.repeticoes = repeticoes;
