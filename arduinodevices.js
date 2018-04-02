@@ -6,6 +6,10 @@ exports.clients = [
 	{
 		serial: "DUMMY-DUMMY",
 		ip: "192.168.0.13",
+		exo: "1/2",
+		repeticoes: "2/12",
+		status: "run",
+		tempo: "05:10:01",
 		dataRegistro: Date()
 	}		
 ];

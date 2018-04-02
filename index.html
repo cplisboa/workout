@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="workout">
+<html ng-app="workout" lang="pt">
 	<head>
-		<meta charset="UTF-8" />
+    	<title>DSC | Digital Score Counter</title>
+
+		<meta charset="utf-8" />
 		<link href="lib/font-awesome.min.css" rel="stylesheet" />
 		<link href="lib/bootstrap.min.css" rel="stylesheet" />
 		<script src="lib/jquery-3.1.1.min.js""></script>
@@ -15,11 +17,40 @@
 		<script src="js/cadastrarWorkoutCtrl.js"></script>
 		<script src="js/gerLoggerCtrl.js"></script>
 		<script src="js/atribuirWorkoutCtrl.js"></script>
-		<script src="js/resultadosCtrl.js"></script>		
+		<script src="js/resultadosCtrl.js"></script>
+		<script src="js/ardoOnlineCtrl.js"></script>				
 		<script src="js/arduinoCtrl.js"></script>
 	</head>
 
-	<body>
-		<div ng-view></div>
-	</body>	
+	<body>		
+		<!-- Header --> <!--  STATUS dos Arduinos on-line -->rrrr
+	    <header ng-controller="ardoOnlineCtrl as ctrl">
+			<h3> DSC | Digital Score Counter</h3>
+
+	        <div class="container">	
+    	        <div class="container-fluid">
+        	        <h4 class="page-header">Status dos DataLogger atualmente conectados</h1>
+
+                   	<div ng-repeat="ardo in ctrl.listaArduinos track by $index">
+                       	<div class="col-md-4"> {{ ardo.serial }}</div>
+                       	<div class="col-md-4"> {{ ardo.ip }}</div>
+                       	<div class="col-md-4"> {{ ardo.status }}</div>
+                       	<div class="col-md-4"> {{ ardo.tempo }}</div>
+                   	</div>
+            	</div>	
+        	</div>
+	    </header>
+	
+		<!-- NG-VIEW -->
+	    <div id="conteudo" ng-view class="container-fluid"></div> 
+	
+		<!-- footer -->
+	    <footer class="footer" ng-controller="indexController as idxCtrl">
+	        <div class="container-fluid">
+	            <a href="http://www.agildevelop.com.br">
+	                <img src="img/agil.jpg" style="width:149; height:80px;" alt="Desenvolvimento: Agil Develop" />
+	            </a>
+	        </div>
+	    </footer>
+	</body>
 </html>
