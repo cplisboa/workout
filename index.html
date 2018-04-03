@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="workout" lang="pt">
 	<head>
+	
+		<!--  Plugin Jquery para timer  https://www.jqueryscript.net/time-clock/Count-Up-Timer-Stopwatch-jQuery-Countimer.html -->
     	<title>DSC | Digital Score Counter</title>
 
 		<meta charset="utf-8" />
@@ -23,7 +25,7 @@
 	</head>
 
 	<body>		
-		<!-- Header --> <!--  STATUS dos Arduinos on-line -->rrrr
+		<!-- Header --> <!--  STATUS dos Arduinos on-line -->
 	    <header ng-controller="ardoOnlineCtrl as ctrl">
 			<h3> DSC | Digital Score Counter</h3>
 
@@ -32,10 +34,17 @@
         	        <h4 class="page-header">Status dos DataLogger atualmente conectados</h1>
 
                    	<div ng-repeat="ardo in ctrl.listaArduinos track by $index">
-                       	<div class="col-md-4"> {{ ardo.serial }}</div>
-                       	<div class="col-md-4"> {{ ardo.ip }}</div>
-                       	<div class="col-md-4"> {{ ardo.status }}</div>
-                       	<div class="col-md-4"> {{ ardo.tempo }}</div>
+                       	<div class="col-md-3"> {{ ardo.serial }}</div>
+                       	<div class="col-md-3"> {{ ardo.ip }}</div>
+                       	<div class="col-md-2"> {{ ardo.exo }}</div>
+
+						<div class="col-md-2">
+							<div ng-if="ardo.status=='run'" class="alert alert-success" role="alert"> Running </div>
+							<div ng-if="ardo.status=='stop'" class="alert alert-danger" role="alert"> Stop </div>
+							<div ng-if="ardo.status=='finished'" class="alert alert-primary" role="alert"> Finished </div>
+						</div>                       	
+                       	<div class="col-md-2"> {{ ardo.status }}</div>
+                       	<div class="col-md-2"> {{ ardo.tempo }}</div>
                    	</div>
             	</div>	
         	</div>
